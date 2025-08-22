@@ -3,8 +3,8 @@ import { NextResponse } from 'next/server';
 
 // lets everyone access these routes not only signed in users
 const isPublicRoute = createRouteMatcher([
-    "/signin",
-    "/signup",
+    "/sign-in",
+    "/sign-up",
     "/",
     "/home"
 ])
@@ -28,12 +28,12 @@ export default clerkMiddleware(async (auth, req) => {
   if(!userId){
     // trying to access protected page
     if(!isPublicRoute(req) && !isPublicApiRoute(req)){
-        return NextResponse.redirect(new URL("/signin", req.url))
+        return NextResponse.redirect(new URL("/sign-in", req.url))
     }
 
     //trying to access protected api route
     if(isApiRequest && !isPublicApiRoute(req)){
-        return NextResponse.redirect(new URL("/signin", req.url))
+        return NextResponse.redirect(new URL("/sign-in", req.url))
     }
   }
 })
