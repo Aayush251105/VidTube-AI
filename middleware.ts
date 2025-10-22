@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 const isPublicRoute = createRouteMatcher([
     "/sign-in",
     "/sign-up",
-    "/",
+    // "/",
     "/home"
 ])
 
@@ -17,6 +17,13 @@ const isPublicApiRoute = createRouteMatcher([
 export default clerkMiddleware(async (auth, req) => {
   const {userId} = await auth();
   const currentUrl = new URL(req.url)
+  const pathname = currentUrl.pathname;
+
+  // Redirect root "/" to "/home" for everyone
+  if (pathname === "/") {
+    return NextResponse.redirect(new URL("/home", req.url));
+  }
+  
   const isAccessingDashboard = currentUrl.pathname === "/home"
   const isApiRequest = currentUrl.pathname.startsWith("/api")
 
